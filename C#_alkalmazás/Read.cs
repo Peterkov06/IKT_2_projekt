@@ -12,14 +12,14 @@ namespace PC_alkatrészek
          * type
          * name
          * parameters:
-         *      -CPU --> frequency, socket, cores
+         *      -CPU --> frequency, cores
          *      -Motherboard --> cpu socket
          *      -RAM --> frequency, size
          *      -GPU --> frequency, memory size
          *      -HDD/SSD --> speed, size
          *      -Monitor --> resolution, Hz
          *      -Mouse --> DPI, vire-less
-         *      -Keyboard --> mechanic/membranous
+         *      -Keyboard --> mechanic/membranous, wiht or without numpad
          * price(Ft)
         */
 
