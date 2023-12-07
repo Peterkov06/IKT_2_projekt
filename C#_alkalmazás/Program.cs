@@ -7,7 +7,7 @@
             Methods m = new();
 
             m.ReadIn("proba.txt");
-            m.WriteIn();
+            m.TxtWrite("proba.txt");
 
             Console.ReadKey();
         }
