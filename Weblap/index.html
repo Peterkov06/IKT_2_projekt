@@ -3,11 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gépösszeállító</title>
   <link rel="stylesheet" href="responsive_style.css">
   <link rel="stylesheet" href="main_style.css">
+  <title>Gépösszeállító</title>
 </head>
 <body>
-  
+  <header>
+    <div class="headerDiv">
+      <h1 class="center-text">Gépösszeállító</h1>
+    </div>
+  </header>
+  <nav class="navBar hidden">
+    <div>
+      <h3 class="">Gépösszeállító</h3>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row mainDiv">
+      <div class="col-9">
+        <p>
+          <h2>Válaszd ki az alkatrészeket!</h2>
+          <hr>
+          <div class="choosable">
+            <h3>1.CPU</h3>
+              <div class="selectOptions">
+                <input type="button" value="Válassz!" onclick="OpenDropDown(0)">
+                <div class="myDropdown">
+                  <input type="text" class="myInput" id="myInput" onkeyup="FilterSearch(0)">
+                  <a href="">Jani</a>
+                  <a href="">Petya</a>
+                  <a href="">Béla</a>
+                  <a href="">Jani</a>
+                  <a href="">Jani</a>
+                  <a href="">Jani</a>
+                </div>
+              </div>
+          </div>
+          <hr>
+          <div class="choosable">
+            <h3>2.Alaplap</h3>
+              <div class="selectOptions">
+                <input type="button" value="Válassz!" onclick="OpenDropDown(1)">
+                <div class="myDropdown">
+                  <input type="text" class="myInput" id="myInput" onkeyup="FilterSearch(1)"">
+                  <a href="">Jani</a>
+                  <a href="">Jani</a>
+                </div>
+              </div>
+          </div>
+          <hr>
+        </p>
+      </div>
+      <div class="col-3 sideDiv">
+        <h2 class="center-text">Kosár</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure vero aperiam atque quia ratione distinctio cum dolore nemo in libero quasi mollitia quas maiores voluptates, numquam dignissimos a harum saepe!
+        Quo distinctio perspiciatis officiis ab consequuntur officia maiores! Veniam asperiores harum maiores culpa fuga nisi, explicabo aliquam sapiente delectus expedita esse odit, quibusdam dolore soluta dignissimos quae quisquam hic tempora.
+        </p>
+      </div>
+    </div>
+  </div>
+  <script src="looks.js"></script>
 </body>
 </html>
