@@ -13,7 +13,7 @@ namespace PC_alkatrészek
          * name
          * parameters:
          *      -CPU --> frequency, cores
-         *      -Motherboard --> cpu socket
+         *      -Motherboard --> cpu socket, max ram
          *      -RAM --> frequency, size
          *      -GPU --> frequency, memory size
          *      -HDD/SSD --> speed, size
@@ -36,5 +36,7 @@ namespace PC_alkatrészek
             this.parameters = parameters;
             this.price = price;
         }
+
+        
     }
 }
