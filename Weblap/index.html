@@ -8,6 +8,7 @@
   <title>Gépösszeállító</title>
 </head>
 <body>
+  <div id="overlay"></div>
   <header>
     <div class="headerDiv">
       <h1 class="center-text">Gépösszeállító</h1>
@@ -15,10 +16,52 @@
   </header>
   <nav class="navBar hidden">
     <div>
-      <h3 class="">Gépösszeállító</h3>
+      <h3>Gépösszeállító</h3>
     </div>
   </nav>
+
   <div class="container">
+    <div class="filterTab">
+      <div class="col-12"><a href="javascript:void(0)" class="closebtn" onclick="closeNav(event)">&times;</a></div>
+      <div class="col-12">
+        <h1>Szűrés</h1>
+      </div>
+      <div class="col-12">
+        <h3>Gyártó</h3>
+        <select name="manufacturer" id="manufacturer">
+          <option value="Choose">--Válassz--</option>
+          <option value="AMD">AMD</option>
+          <option value="Intel">Intel</option>
+        </select>
+      </div>
+  
+      <div class="col-12">
+        <h3>Magok száma</h3>
+        <select name="coreNum" id="coreNum">
+          <option value="Choose">--Válassz--</option>
+          <option value="2">2</option>
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="16">16</option>
+          <option value="32">32</option>
+          <option value="64">64</option>
+          <option value="128">128</option>
+        </select>
+      </div>
+  
+      <div class="col-12">
+        <h3>Processzor foglalat</h3>
+        <select name="socket" id="socket">
+          <option value="Choose">--Válassz--</option>
+          <option value="AM4">AM4</option>
+          <option value="AM5">AM5</option>
+        </select>
+      </div>
+
+      <div class="col-12">
+        <input type="button" value="Szűrés">
+      </div>
+    </div>
     <div class="row mainDiv">
       <div class="col-9">
         <p>
@@ -27,9 +70,12 @@
           <div class="choosable">
             <h3>1.CPU</h3>
               <div class="selectOptions">
-                <input type="button" value="Válassz!" onclick="OpenDropDown(0)">
+                <input type="button" value="Válassz!" onclick="OpenDropDown(0, event)">
                 <div class="myDropdown">
                   <input type="text" class="myInput" id="myInput" onkeyup="FilterSearch(0)">
+
+                  <input type="button" value="Szűrés" class="filterBtn" onclick="openNav(event)">
+
                   <a href="">Jani</a>
                   <a href="">Petya</a>
                   <a href="">Béla</a>
@@ -43,7 +89,7 @@
           <div class="choosable">
             <h3>2.Alaplap</h3>
               <div class="selectOptions">
-                <input type="button" value="Válassz!" onclick="OpenDropDown(1)">
+                <input type="button" value="Válassz!" onclick="OpenDropDown(1, event)">
                 <div class="myDropdown">
                   <input type="text" class="myInput" id="myInput" onkeyup="FilterSearch(1)"">
                   <a href="">Jani</a>
@@ -52,6 +98,11 @@
               </div>
           </div>
           <hr>
+          <div class="choosable">
+            <h3>API test</h3>
+              <input type="button" value="Get values" onclick="GetDataFromDB()">
+              <div id="testout"></div>
+          </div>
         </p>
       </div>
       <div class="col-3 sideDiv">
@@ -63,5 +114,6 @@
     </div>
   </div>
   <script src="looks.js"></script>
+  <script src="apiCalls.js"></script>
 </body>
 </html>
