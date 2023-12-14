@@ -25,18 +25,24 @@ namespace PC_alkatrészek
 
         string type;
         string name;
-        string parameters;
+        string parameter1;
+        string parameter2;
         int price;
 
 
-        public Read(string type, string name, string parameters, int price)
+        public Read(string type, string name, string parameter1, string parameter2, int price)
         {
             this.type = type;
             this.name = name;
-            this.parameters = parameters;
+            this.parameter1 = parameter1;
+            this.parameter2 = parameter2;
             this.price = price;
         }
 
-        
+        public string Type { get => type; }
+        public string Name { get => name; }
+        public string Parameter1 { get => parameter1; }
+        public string Parameter2 { get => parameter2; }
+        public int Price { get => price; }
     }
 }
