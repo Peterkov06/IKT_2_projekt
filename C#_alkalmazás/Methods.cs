@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace PC_alkatrészek
 {
@@ -23,29 +25,45 @@ namespace PC_alkatrészek
 
             string type;
             string name;
-            string parameter;
+            string parameter1;
+            string parameter2;
             int price;
 
             foreach (var line in all)
             {
-                var line_parts = line.Trim(';').Split(";");
+                var line_parts = line.Trim(';').Trim('\n').Split(";");
                 type = line_parts[0];
                 name = line_parts[1];
-                parameter = line_parts[2];
-                price = Convert.ToInt32(line_parts[3]);
+                parameter1 = line_parts[2];
+                parameter2 = line_parts[3];
+                price = Convert.ToInt32(line_parts[4]);
 
-                products ?.Add(new Read(type, name, parameter, price));
+                products?.Add(new Read(type, name, parameter1, parameter2, price));
             }
         }
-        public string WriteInErrorHandling(string output1, string output2)
+        public string WriteInErrorHandlingStr(string output)
         {
-            string p1;
-            string p2;
+            string p;
 
-            do { Console.Write($"\t{output1}"); p1 = Console.ReadLine() ?? ""; } while (p1 == "");
-            do { Console.Write($"\t{output2}"); p2 = Console.ReadLine() ?? ""; } while (p2 == "");
+            do { Console.Write($"\t{output}"); p = Console.ReadLine() ?? ""; } while (p == "");
 
-            return p1 + "," + p2;
+            return p;
+        }
+
+        public string WriteInErrorHandlingInt(string output)
+        {
+            string p;
+            bool number;
+
+            do
+            {
+                int x;
+                Console.Write($"\t {output}");
+                p = Console.ReadLine() ?? "";
+                number = int.TryParse(p, out x);
+            } while (p == "" || number == false);
+
+            return p;
         }
         public string WriteIn()
         {
@@ -53,7 +71,8 @@ namespace PC_alkatrészek
             string[] types = {"cpu", "motherboard", "ram", "gpu", "hdd", "ssd", "monitor", "mouse", "keyboard"};
 
             string name;
-            string parameters = "";
+            string parameter1 = "";
+            string parameter2 = "";
             int price;
 
             Console.WriteLine("Input of parts:");
@@ -65,48 +84,53 @@ namespace PC_alkatrészek
             do { Console.Write($"Enter the name of the {type?.ToLower()}: "); name = Console.ReadLine() ?? ""; } while (name == "" || name.GetType() != typeof(string));
 
             //Parameters
-            string p1;
-            string p2;
             Console.WriteLine($"Enter the parameters of {name} {type}: ");
 
             switch (type?.ToLower())
             {
                 case "cpu":
-                    parameters = WriteInErrorHandling("Enter the frequency of the CPU in Mhz: ", "Enter the number of the CPU cores: ");
+                    parameter1 = WriteInErrorHandlingInt("Enter the frequency of the CPU (in Mhz): ");
+                    parameter2 = WriteInErrorHandlingInt("Enter the number of the CPU cores: ");
                     break;
 
                 case "motherboard":
-                    parameters = WriteInErrorHandling("Enter the type of the CPU socket: ", "Enter the maximum amount of RAM in gigabytes, that the motherboard can handle: ");
+                    parameter1 = WriteInErrorHandlingStr("Enter the type of the CPU socket: ");
+                    parameter2 = WriteInErrorHandlingInt("Enter the maximum amount of RAM, that the motherboard can handle (in gigabytes): ");
                     break;
 
                 case "ram":
-                    parameters = WriteInErrorHandling("Enter the frequency of the RAM in Mhz: ", "Enter the size of the RAM in gigabytes: ");
+                    parameter1 = WriteInErrorHandlingInt("Enter the frequency of the RAM in Mhz: ");
+                    parameter2 = WriteInErrorHandlingInt("Enter the size of the RAM in gigabytes: ");
                     break;
 
                 case "gpu":
-                    parameters = WriteInErrorHandling("Enter the frequency of the GPU in Mhz: ", "Enter the size of the GPU's ram in gigabytes: ");
+                    parameter1 = WriteInErrorHandlingInt("Enter the frequency of the GPU (in Mhz): ");
+                    parameter2 = WriteInErrorHandlingInt("Enter the size of the GPU's ram (in gigabytes): ");
                     break;
 
                 case "hdd":
-                    parameters = WriteInErrorHandling("Enter the speed of the HDD in RPM: ", "Enter the storage capacity of the HDD: ");
+                    parameter1 = WriteInErrorHandlingInt("Enter the speed of the HDD in RPM: ");
+                    parameter2 = WriteInErrorHandlingInt("Enter the storage capacity of the HDD (in gigabytes): ");
                     break;
 
                 case "ssd":
-                    parameters = WriteInErrorHandling("Enter the speed of the SSD in MB/s: ", "Enter the storage capacity of the SSD: ");
+                    parameter1 = WriteInErrorHandlingInt("Enter the speed of the SSD in MB/s: ");
+                    parameter2 = WriteInErrorHandlingInt("Enter the storage capacity of the SSD (in gigabytes): ");
                     break;
 
                 case "monitor":
-                    parameters = WriteInErrorHandling("Enter the resolution of the monitor: ", "Enter the refresh rate of the monitor in Hz: ");
+                    parameter1 = WriteInErrorHandlingStr("Enter the resolution of the monitor (f.e.: 1920x1080): ");
+                    parameter2 = WriteInErrorHandlingInt("Enter the refresh rate of the monitor in Hz: ");
                     break;
 
                 case "mouse":
-                    parameters = WriteInErrorHandling("Enter the dpi size of the mouse: ", "Enter the connection type of the mouse (f.e.: wire, wireless): ");
+                    parameter1 = WriteInErrorHandlingInt("Enter the dpi size of the mouse: ");
+                    parameter2 = WriteInErrorHandlingStr("Enter the connection type of the mouse (f.e.: wire, wireless): ");
                     break;
 
                 case "keyboard":
-                    do { Console.Write("\tEnter the type of the keyboard (mechanic/membranous): "); p1 = Console.ReadLine() ?? ""; } while (!(p1.ToLower() == "mechanic" || p1.ToLower() == "membranous"));
-                    do { Console.Write("\tDoes it have numpad(Yes/No)? :  "); p2 = Console.ReadLine() ?? ""; } while (!(p2.ToLower() == "yes" || p2.ToLower() == "no"));
-                    parameters = $"{p1},{p2}";
+                    do { Console.Write("\tEnter the type of the keyboard (mechanic/membranous): "); parameter1 = Console.ReadLine() ?? ""; } while (!(parameter1.ToLower() == "mechanic" || parameter1.ToLower() == "membranous"));
+                    do { Console.Write("\tDoes it have numpad(Yes/No)? :  "); parameter2 = Console.ReadLine() ?? ""; } while (!(parameter2.ToLower() == "yes" || parameter2.ToLower() == "no"));
                     break;
             }
 
@@ -121,7 +145,7 @@ namespace PC_alkatrészek
             } while (strPrice == "" || number == false);
 
             //Return all things
-            return $"{type};{name};{parameters};{price};";
+            return $"{type.ToLower()};{name.ToLower()};{parameter1.ToLower()};{parameter2.ToLower()};{price}";
         }
 
         public void TxtWrite(string fajlnev)
@@ -142,6 +166,8 @@ namespace PC_alkatrészek
 
             ReadIn(fajlnev);
         }
+
+        
 
     }
 }
