@@ -14,13 +14,21 @@ let filterTabOn = false;
 
 function OpenDropDown(x, event)
 {
+  let dropdowns = document.getElementsByClassName('myDropdown');
+  for (let index = 0; index < dropdowns.length; index++) 
+  {
+    if (dropdowns[index].classList.contains('show'))
+    {
+      dropdowns[index].classList.toggle('show', false);
+    }  
+  }
   event.stopPropagation();
   document.getElementsByClassName("myDropdown")[x].classList.toggle("show");
 }
 
 function FilterSearch(x)
 {
-  div = document.getElementsByClassName("myDropdown")[x];
+  let div = document.getElementsByClassName("myDropdown")[x];
   let input = div.getElementsByClassName("myInput")[0];
   let filter = input.value.toUpperCase();
   let a = div.getElementsByTagName("a");

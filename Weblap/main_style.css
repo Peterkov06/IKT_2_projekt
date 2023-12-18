@@ -96,6 +96,11 @@ h1
   align-items: center;
 }
 
+.choosable > select
+{
+  margin: 8px;
+}
+
 .choosable input[type="button"].filterBtn
 {
   padding: 5px;
