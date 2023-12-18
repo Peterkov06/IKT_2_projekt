@@ -1,3 +1,5 @@
+import { GetCPU } from "./apiCalls.js";
+
 window.addEventListener("scroll",function () {
   let navBar = this.document.getElementsByClassName("navBar")[0];
   if (this.window.scrollY > 90)
@@ -12,9 +14,16 @@ window.addEventListener("scroll",function () {
 
 let filterTabOn = false;
 
-function OpenDropDown(x, event)
+let dropdownBtns = document.getElementsByClassName('dropdownBtn');
+for (let ind = 0; ind < dropdownBtns.length; ind++) {
+  dropdownBtns[ind].addEventListener('click', function (event) {OpenDropDown(ind, event);});
+}
+
+async function OpenDropDown(x, event)
 {
   let dropdowns = document.getElementsByClassName('myDropdown');
+  let data = await GetCPU();
+  GenerateCPUelements(data, dropdowns[x].getElementsByClassName('dropdownElements')[0]);
   for (let index = 0; index < dropdowns.length; index++) 
   {
     if (dropdowns[index].classList.contains('show'))
@@ -24,6 +33,14 @@ function OpenDropDown(x, event)
   }
   event.stopPropagation();
   document.getElementsByClassName("myDropdown")[x].classList.toggle("show");
+}
+
+function GenerateCPUelements(list, currDropdown) 
+{
+  currDropdown.innerHTML = '';
+  for (let index = 0; index < list.length; index++) {
+    currDropdown.innerHTML += `<a href="#">${list[index].name}</a>`;
+  }
 }
 
 function FilterSearch(x)

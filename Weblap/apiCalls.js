@@ -97,30 +97,22 @@ function UploadCPU()
         headers: {"Content-type": "application/json; charset=UTF-8"}
     }
   )
-  .then(response => {
-    if (!response.ok) {
-      console.error('Error:', response.status, response.statusText);
-    } else {
-      return response.json();
-    }
-  })
   .then(response => response.json())
-  .then()
+  .then(json)
+}
+async function GetCPU()
+{
+  const response = await fetch(apiURL +'CPU')
+
+  if (!response.ok)
+  {
+    console.log("Error in getting data");
+    return;
+  }
+
+  const data = await response.json()
+  return data;
+
 }
 
-function GetCPU()
-{
-  fetch(apiURL +'CPU')
-  .then(response => {
-    if (!response.ok)
-    {
-      console.log("Error in getting data");
-    }
-    return response.json();
-  })
-  .then(data => {
-    let select = document.getElementById("sendBtn");
-    select.innerHTML += data;
-  })
-  .catch(error => {console.error("Cant get data");})
-}
+export {GetCPU};
