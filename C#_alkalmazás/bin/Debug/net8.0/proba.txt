@@ -1,0 +1,16 @@
+ssd;western digital nvme;60;1000;35000
+mouse;trust gaming 3000;4500;asd;5600
+hdd;seagate barracuda;5400;2000;20000
+cpu;intel core i5;3800;8;56000
+motherboard;asrock b450;am4;64;35000
+ram;kingston fury;2800;8;12000
+ssd;samsung 970 evo;85;500;50000
+gpu;nvidia geforce rtx 3080ti;5600;12;200000
+monitor;acer nitro;1920x1080;75;56990
+cpu;amd threadthripper;3200;64;125000
+cpu;amd ryzen 3;3500;4;3200
+cpu;ryzen 5 5600x;4500;8;74000
+cpu;amd ryzen 7 5700x;4800;16;85600
+cpu;intel core i9;4500;16;89000
+cpu;intel core i7 13500k;4500;12;75000
+ram;gskill trident z;3500;32;34000

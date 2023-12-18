@@ -8,6 +8,7 @@
 
             m.ReadIn("proba.txt");
             m.TxtWrite("proba.txt");
+            m.Search();
 
             Console.ReadKey();
         }
