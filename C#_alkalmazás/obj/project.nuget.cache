@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Zj25vBSTEyYe24wXGWEyQV3FXByURNu6QtKkTwyiZq6pW203eQG/9DeeacIj5Tf1oCIvFkAjXX+nFK8WfPCXIQ==",
+  "success": true,
+  "projectFilePath": "C:\\Programozas\\IKT\\Projekt2\\PC_alkatrészek\\PC_alkatrészek.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.1\\microsoft.extensions.logging.abstractions.7.0.1.nupkg.sha512",
+    "C:\\Users\\Kukola Kende\\.nuget\\packages\\mysqlconnector\\2.3.1\\mysqlconnector.2.3.1.nupkg.sha512"
+  ],
+  "logs": []
+}

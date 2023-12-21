@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PC_alkatrészek
 {
@@ -12,7 +6,7 @@ namespace PC_alkatrészek
     {
 
         static List<Read>? products;
-
+        string[] types = { "cpu", "motherboard", "ram", "gpu", "hdd", "ssd", "monitor", "mouse", "keyboard" };
         public Methods()
         {
             products = new List<Read>();
@@ -68,7 +62,6 @@ namespace PC_alkatrészek
         public string WriteIn()
         {
             string type;
-            string[] types = {"cpu", "motherboard", "ram", "gpu", "hdd", "ssd", "monitor", "mouse", "keyboard"};
 
             string name;
             string parameter1 = "";
@@ -125,7 +118,7 @@ namespace PC_alkatrészek
 
                 case "mouse":
                     parameter1 = WriteInErrorHandlingInt("Enter the dpi size of the mouse: ");
-                    parameter2 = WriteInErrorHandlingStr("Enter the connection type of the mouse (f.e.: wire, wireless): ");
+                    parameter2 = WriteInErrorHandlingStr("Enter the connection type of the mouse (f.e.: wire, wireless, bluetooth, etc..): ");
                     break;
 
                 case "keyboard":
@@ -137,9 +130,9 @@ namespace PC_alkatrészek
             //Price
             string strPrice;
             bool number;
-            do 
-            { 
-                Console.Write($"Enter the price of the {type}: "); 
+            do
+            {
+                Console.Write($"Enter the price of the {type}: ");
                 strPrice = Console.ReadLine() ?? "";
                 number = int.TryParse(strPrice, out price);
             } while (strPrice == "" || number == false);
@@ -160,14 +153,103 @@ namespace PC_alkatrészek
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 do { Console.Write("\nDo you want to bring in another PC part? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
-                Console.ForegroundColor= ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.White;
 
             } while (!(response.ToLower() == "no"));
 
             ReadIn(fajlnev);
         }
 
-        
+        public void SearchType()
+        {
+            string type;
+            do { type = WriteInErrorHandlingStr("Enter the type of the product you want to search for: "); } while (!(types.Contains(type)));
+
+            for (int i = 0; i < products.Count; i++)
+            {
+                if (products[i].Type == type)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine($"\t{products[i].Name}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+        }
+
+        public void SearchName()
+        {
+            string name = WriteInErrorHandlingStr("Enter the name of the product you want to search for: ");
+
+            for (int i = 0; i < products.Count; i++)
+            {
+                if (products[i].Name.Contains(name.ToLower()))
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine($"{products[i].Name} {products[i].Type}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+
+        }
+
+        public void SearchPrice()
+        {
+            int min;
+            string min_;
+            int max;
+            string max_;
+            bool number;
+
+            do
+            {
+                Console.Write($"\tEnter the minimum price: ");
+                min_ = Console.ReadLine() ?? "";
+                number = int.TryParse(min_, out min);
+            } while (min_ == "" || number == false);
+            
+            do
+            {
+                Console.Write($"\tEnter the maximum price: ");
+                max_ = Console.ReadLine() ?? "";
+                number = int.TryParse(max_, out max);
+            } while (max_ == "" || number == false);
+
+
+            for (int i = 0; i < products.Count; i++)
+            {
+                if (products[i].Price >= min && products[i].Price <= max)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine($"{products[i].Name} {products[i].Type}; {products[i].Price}Ft");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+
+        }
+        public void Search()
+        {
+            string response;
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            do { Console.Write("Do you want to search among the parts? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
+            Console.ForegroundColor = ConsoleColor.White;
+
+            do
+            {
+                string keyword;
+                do { Console.WriteLine("What do you want to search for? Write down the keyword!"); Console.Write("(type/name/(between) prices): "); keyword = Console.ReadLine() ?? ""; } while (!(keyword == "type" || keyword == "name" || keyword == "price" || keyword == "prices"));
+
+                if (keyword == "type") { SearchType(); }
+                if (keyword == "name") { SearchName(); }
+                if (keyword == "price" || keyword == "prices") { SearchPrice(); }
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                do { Console.Write("Do you want to search among the parts? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
+                Console.ForegroundColor = ConsoleColor.White;
+
+            } while (!(response.ToLower() == "no"));
+
+        }
 
     }
 }
