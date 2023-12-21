@@ -41,6 +41,8 @@ function SendDataToDB()
   .then(json)
 }
 
+document.body.addEventListener("load", GetUploadTypes())
+
 function GetUploadTypes()
 {
   fetch(apiURL +'TableTypes')
@@ -115,4 +117,4 @@ async function GetCPU()
 
 }
 
-export {GetCPU};
+export {GetCPU, UploadCPU};

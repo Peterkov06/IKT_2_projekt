@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="admincss.css">
   <title>Gépösszeállító</title>
 </head>
-<body onload="GetUploadTypes()">
+<body>
   <div id="overlay"></div>
   <header>
     <div class="headerDiv">
@@ -34,7 +34,7 @@
           <hr>
           <div class="col-12 choosable">
             <h3>Termék típusa:</h3>
-            <select name="productType" id="productType" onchange="ChosenType(value)">
+            <select name="productType" id="productType">
               <option value="choose">--Válassz--</option>
             </select>
           </div>
@@ -42,13 +42,12 @@
               
           </div>
           <div id="sendBtn" class="col-12"></div>
-          <input type="button" value="Feltöltés" onclick="UploadCPU()">
         </p>
       </div>
     </div>
   </div>
-  <script src="looks.js"></script>
-  <script src="apiCalls.js"></script>
-  <script src="uploadForms.js"></script>
+  <script src="looks.js" type="module"></script>
+  <script src="apiCalls.js" type="module"></script>
+  <script src="uploadForms.js" type="module"></script>
 </body>
 </html>
