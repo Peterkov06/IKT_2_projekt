@@ -117,4 +117,71 @@ async function GetCPU()
 
 }
 
-export {GetCPU, UploadCPU};
+async function GetPreset(type)
+{
+  const response = await fetch(apiURL +'GetPresets?type=' + type)
+  if (!response.ok)
+  {
+    console.log("Error in getting data");
+    return;
+  }
+
+  const data = await response.json()
+  return data;
+}
+
+function UploadMotherBoard()
+{
+  let name = document.getElementById("name").value;
+  let manufacturer = document.getElementById("manufacturer").value;
+  let price = document.getElementById("price").value;
+  let ramSlotNum = document.getElementById("ramSlotNum").value;
+  let socket = document.getElementById("socket").value;
+  let sataNum = document.getElementById("sataNum").value;
+  let m2Num = document.getElementById("m2Num").value;
+  let PCIeNum = document.getElementById("PCIeNum").value;
+  let ddrtype = document.getElementById("ddrtype").value;
+  let stock = document.getElementById("stock").value;
+
+    let data = {
+      Id: 0,
+      Type: 1,
+      Name: name,
+      Manufacturer: manufacturer,
+      Price: Number(price),
+      RamSlots: Number(ramSlotNum),
+      CPUsocket: socket,
+      SataNum: Number(sataNum),
+      M2Num: Number(m2Num),
+      PCIeNum: Number(PCIeNum),
+      DDRtype: ddrtype,
+      StockNum: Number(stock)
+    };
+    console.log(JSON.stringify(data));
+  fetch(apiURL + 'MotherBoard', 
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    }
+  )
+  .then(response => response.json())
+  .then(json)
+}
+
+async function GetMotherboards()
+{
+  const response = await fetch(apiURL +'MotherBoard')
+
+  if (!response.ok)
+  {
+    console.log("Error in getting data");
+    return;
+  }
+
+  const data = await response.json()
+  return data;
+
+}
+
+export {GetCPU, UploadCPU, GetPreset, UploadMotherBoard, GetMotherboards};

@@ -1,4 +1,4 @@
-import { GetCPU } from "./apiCalls.js";
+import { GetCPU, GetMotherboards } from "./apiCalls.js";
 
 window.addEventListener("scroll",function () {
   let navBar = this.document.getElementsByClassName("navBar")[0];
@@ -22,8 +22,18 @@ for (let ind = 0; ind < dropdownBtns.length; ind++) {
 async function OpenDropDown(x, event)
 {
   let dropdowns = document.getElementsByClassName('myDropdown');
-  let data = await GetCPU();
-  GenerateCPUelements(data, dropdowns[x].getElementsByClassName('dropdownElements')[0]);
+  let data;
+  switch (x) {
+    case 0:
+      data = await GetCPU();
+      GenerateCPUelements(data, dropdowns[x].getElementsByClassName('dropdownElements')[0]);
+      break;
+    case 1:
+      data = await GetMotherboards();
+      GenerateMotherboardElements(data, dropdowns[x].getElementsByClassName('dropdownElements')[0])
+    default:
+      break;
+  }
   for (let index = 0; index < dropdowns.length; index++) 
   {
     if (dropdowns[index].classList.contains('show'))
@@ -36,6 +46,14 @@ async function OpenDropDown(x, event)
 }
 
 function GenerateCPUelements(list, currDropdown) 
+{
+  currDropdown.innerHTML = '';
+  for (let index = 0; index < list.length; index++) {
+    currDropdown.innerHTML += `<a href="#">${list[index].name}</a>`;
+  }
+}
+
+function GenerateMotherboardElements(list, currDropdown) 
 {
   currDropdown.innerHTML = '';
   for (let index = 0; index < list.length; index++) {
