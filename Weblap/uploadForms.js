@@ -1,4 +1,4 @@
-import { UploadCPU, GetPreset, UploadMotherBoard } from "./apiCalls.js";
+import { UploadCPU, GetPreset, UploadMotherBoard, UploadRAM, UploadGPU, UploadStorage, UploadMonitor, UploadMouse, UploadKeyboard } from "./apiCalls.js";
 
 document.getElementById("productType").addEventListener("change", function() {ChosenType(this.value);})
 
@@ -24,12 +24,14 @@ async function ChosenType(type)
         let overclockTypeList = await GetPreset('overclockType');
         let optionsGen = ``;
         overclockTypeList.forEach(element => {
-          optionsGen += `<option value="${element.ID}">${element.name}</option>`;
+          optionsGen += `<option value="${element.overclockPresetID}">${element.name}</option>`;
         });
         div.innerHTML += `<div class="uploadItem"><label for="ddrtype">Támogatott DDR típus: </label> <input type="text" name="ddrtype" id="ddrtype"></div> <div class="uploadItem"><label for="size">RAM mérete (GB): </label> <input type="number" name="size" id="size"></div> <div class="uploadItem"><label for="clockspeed">Memória órajel: </label> <input type="number" name="clockspeed" id="clockspeed"></div> <div class="uploadItem"><label for="kitNum">Memória káryták száma: </label> <input type="number" name="kitNum" id="kitNum"></div> <div class="uploadItem"><label for="overclockType">Overclock típus: </label><select name="overclockType" id="overclockType">`+ optionsGen +`</select> </div>`;
+        document.getElementById("uploadData").addEventListener("click", UploadRAM);
         break;
       case "GPU":
         div.innerHTML += `<div class="uploadItem"><label for="gddrtype">GDDR típus: </label> <input type="text" name="gddrtype" id="gddrtype"></div> <div class="uploadItem"><label for="size">VRAM mérete (GB): </label> <input type="number" name="size" id="size"></div> <div class="uploadItem"><label for="corenum">Magok száma: </label> <input type="number" name="corenum" id="corenum"></div> <div class="uploadItem"><label for="clockspeed">GPU alap órajel: </label> <input type="number" name="clockspeed" id="clockspeed"></div>`;
+        document.getElementById("uploadData").addEventListener("click", UploadGPU);
         break;
       case "Storage":
         let storageTypeList = await GetPreset('storageType');
@@ -44,15 +46,19 @@ async function ChosenType(type)
           storageConnectionTypeGen += `<option value="${element.storageConnectionID}">${element.storageConnectionName}</option>`;
         });
         div.innerHTML += `<div class="uploadItem"><label for="storageType">Háttértár típusa: </label><select name="storageType" id="storageType">`+ storageTypeGen +`</select> </div> <div class="uploadItem"><label for="readSpeed">Olvasási sebesség: (MB/s): </label> <input type="number" name="readSpeed" id="readSpeed"></div> <div class="uploadItem"><label for="writeSpeed">Írási sebesség: (MB/s): </label> <input type="number" name="writeSpeed" id="writeSpeed"></div><div class="uploadItem"><label for="connectionType">Csatlakozó típusa: </label><select name="connectionType" id="connectionType">`+ storageConnectionTypeGen +`</select> </div> <div class="uploadItem"><label for="size">Háttértár mérete (GB): </label> <input type="number" name="size" id="size"></div>`;
+        document.getElementById("uploadData").addEventListener("click", UploadStorage);
         break;
       case "Monitor":
         div.innerHTML += `<div class="uploadItem"><label for="diagonalSize">Átlós méret (inch): </label> <input type="text" name="diagonalSize" id="diagonalSize"></div> <div class="uploadItem"><label for="Xsize">Horizontális pixelszám (px): </label> <input type="number" name="Xsize" id="Xsize"></div> <div class="uploadItem"><label for="Ysize">Vertikális pixepszám (px): </label> <input type="number" name="Ysize" id="Ysize"></div> <div class="uploadItem"><label for="panelType">Panel típusa: </label><input type="text" name="panelType" id="panelType"></div></div> <div class="uploadItem"><label for="color">Színhelyesség (DCI-P3): </label> <input type="number" name="color" id="color"></div> <div class="uploadItem"><label for="brightness">Fényerősség (nit): </label> <input type="number" name="brightness" id="brightness"></div> <div class="uploadItem"><label for="dynContrast">Dinamikus kontraszt (x:1): </label> <input type="number" name="dynContrast" id="dynContrast"></div> <div class="uploadItem"><label for="statContrast">Statikus kontraszt (x:1): </label> <input type="number" name="statContrast" id="statContrast"></div> <div class="uploadItem"><label for="refreshRate">Frisssítési ráta (hz): </label> <input type="number" name="refreshRate" id="refreshRate"></div> <div class="uploadItem"><label for="refreshType">Frissítési technológia típusa: </label> <input type="text" name="refreshType" id="refreshType"></div>`;
+        document.getElementById("uploadData").addEventListener("click", UploadMonitor);
         break;
       case "Mouse":
         div.innerHTML += `<div class="uploadItem"><label for="connectionType">Csatlakozási típus: </label> <input type="text" name="connectionType" id="connectionType"></div> <div class="uploadItem"><label for="isWireless">Vezeték nélküli-e (1-nem, 2-igen): </label><input type="number" name="isWireless" id="isWireless"></div> <div class="uploadItem"><label for="dpi">DPI: </label> <input type="number" name="dpi" id="dpi"></div>`;
+        document.getElementById("uploadData").addEventListener("click", UploadMouse);
         break;
       case "Keyboard":
         div.innerHTML += `<div class="uploadItem"><label for="connectionType">Csatlakozási típus: </label> <input type="text" name="connectionType" id="connectionType"></div> <div class="uploadItem"><label for="isWireless">Vezeték nélküli-e (1-nem, 2-igen): </label><input type="number" name="isWireless" id="isWireless"></div> <div class="uploadItem"><label for="keyboardType">Típusa (membrán vagy mechanikus): </label> <input type="text" name="keyboardType" id="keyboardType"></div> <div class="uploadItem"><label for="layout">Nyelv: </label> <input type="text" name="layout" id="layout"></div> <div class="uploadItem"><label for="size">Méret (%): </label> <input type="number" name="size" id="size"></div>`;
+        document.getElementById("uploadData").addEventListener("click", UploadKeyboard);
         break;
       default:
         break;

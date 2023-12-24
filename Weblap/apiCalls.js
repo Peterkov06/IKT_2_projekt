@@ -1,46 +1,5 @@
 const apiURL = 'http://peterdevserver.ddns.net:8080/api/';
 const outpuEl = document.getElementById("testout");
-
-function GetDataFromDB()
-{
-  fetch(apiURL)
-.then(response => {
-  if (!response.ok)
-  {
-    console.log("Error in getting data");
-  }
-  return response.json();
-})
-.then(data => {
-  console.log(data);
-  data.forEach(element => {
-    outpuEl.innerHTML += `${element.id}. ${element.name}: ${element.description} <br>`;
-  });
-})
-.catch(error => {console.error("Cant get data");})
-}
-
-function SendDataToDB()
-{
-  let name = document.getElementById("name").value;
-  let description = document.getElementById("description").value;
-  fetch(apiURL, 
-    {
-      method: "POST",
-      body: JSON.stringify(
-        {
-          id: 0,
-          name: name,
-          description: description
-        }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-    }
-  )
-
-  .then(response => response.json())
-  .then(json)
-}
-
 document.body.addEventListener("load", GetUploadTypes())
 
 function GetUploadTypes()
@@ -100,7 +59,6 @@ function UploadCPU()
     }
   )
   .then(response => response.json())
-  .then(json)
 }
 async function GetCPU()
 {
@@ -166,7 +124,6 @@ function UploadMotherBoard()
     }
   )
   .then(response => response.json())
-  .then(json)
 }
 
 async function GetMotherboards()
@@ -184,4 +141,236 @@ async function GetMotherboards()
 
 }
 
-export {GetCPU, UploadCPU, GetPreset, UploadMotherBoard, GetMotherboards};
+function UploadRAM()
+{
+  let name = document.getElementById("name").value;
+  let manufacturer = document.getElementById("manufacturer").value;
+  let price = document.getElementById("price").value;
+  let ddrtype = document.getElementById("ddrtype").value;
+  let ramsize = document.getElementById("size").value;
+  let clockspeed = document.getElementById("clockspeed").value;
+  let kitNum = document.getElementById("kitNum").value;
+  let overclockType = document.getElementById("overclockType").value;
+  let stock = document.getElementById("stock").value;
+
+    let data = {
+      Id: 0,
+      Type: 3,
+      Name: name,
+      Manufacturer: manufacturer,
+      Price: Number(price),
+      DDRtype: ddrtype,
+      Amount: Number(ramsize),
+      ClockSpeed: Number(clockspeed),
+      KitNum: Number(kitNum),
+      OverclockType: Number(overclockType),
+      StockNum: Number(stock)
+    };
+    console.log(JSON.stringify(data));
+  fetch(apiURL + 'RAM', 
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    }
+  )
+  .then(response => response.json())
+}
+
+function UploadGPU()
+{
+  let name = document.getElementById("name").value;
+  let manufacturer = document.getElementById("manufacturer").value;
+  let price = document.getElementById("price").value;
+  let gddrtype = document.getElementById("gddrtype").value;
+  let vramSize = document.getElementById("size").value;
+  let corenum = document.getElementById("corenum").value;
+  let clockspeed = document.getElementById("clockspeed").value;
+  let stock = document.getElementById("stock").value;
+
+    let data = {
+      Id: 0,
+      Type: 4,
+      Name: name,
+      Manufacturer: manufacturer,
+      Price: Number(price),
+      GDDRtype: gddrtype,
+      VRAMamount: Number(vramSize),
+      CoreNum: Number(corenum),
+      ClockSpeed: Number(clockspeed),
+      StockNum: Number(stock)
+    };
+    console.log(JSON.stringify(data));
+  fetch(apiURL + 'GPU', 
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    }
+  )
+  .then(response => response.json())
+}
+
+function UploadStorage()
+{
+  let name = document.getElementById("name").value;
+  let manufacturer = document.getElementById("manufacturer").value;
+  let price = document.getElementById("price").value;
+  let storagetype = document.getElementById("storageType").value;
+  let readSpeed = document.getElementById("readSpeed").value;
+  let writeSpeed = document.getElementById("writeSpeed").value;
+  let connectionType = document.getElementById("connectionType").value;
+  let size = document.getElementById("size").value;
+  let stock = document.getElementById("stock").value;
+
+    let data = {
+      Id: 0,
+      Type: 5,
+      Name: name,
+      Manufacturer: manufacturer,
+      Price: Number(price),
+      StorageType: Number(storagetype),
+      WriteSpeed: Number(writeSpeed),
+      ReadSpeed: Number(readSpeed),
+      ConnectionType: Number(connectionType),
+      Space: Number(size),
+      StockNum: Number(stock)
+    };
+    console.log(JSON.stringify(data));
+  fetch(apiURL + 'Storage', 
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    }
+  )
+  .then(response => response.json())
+}
+
+function UploadMonitor()
+{
+  let name = document.getElementById("name").value;
+  let manufacturer = document.getElementById("manufacturer").value;
+  let price = document.getElementById("price").value;
+  let size = document.getElementById("diagonalSize").value;
+  let Xresolution = document.getElementById("Xsize").value;
+  let Yresolution = document.getElementById("Ysize").value;
+  let panelType = document.getElementById("panelType").value;
+  let color = document.getElementById("color").value;
+  let brightness = document.getElementById("brightness").value;
+  let dynContrast = document.getElementById("dynContrast").value;
+  let statContrast = document.getElementById("statContrast").value;
+  let refreshRate = document.getElementById("refreshRate").value;
+  let refreshType = document.getElementById("refreshType").value;
+  let stock = document.getElementById("stock").value;
+
+    let data = {
+      Id: 0,
+      Type: 6,
+      Name: name,
+      Manufacturer: manufacturer,
+      Price: Number(price),
+      Size: Number(size),
+      Xresolution: Number(Xresolution),
+      Yresolution: Number(Yresolution),
+      MonitorType: panelType,
+      ColorAccuracy: Number(color),
+      Brightness: Number(brightness),
+      DynamicContrast: Number(dynContrast),
+      StaticContrast: Number(statContrast),
+      RefreshRate: Number(refreshRate),
+      RefreshingTech: refreshType,
+      StockNum: Number(stock)
+    };
+    console.log(JSON.stringify(data));
+  fetch(apiURL + 'Monitor', 
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    }
+  )
+  .then(response => response.json())
+}
+
+async function UploadMouse()
+{
+  let name = document.getElementById("name").value;
+  let manufacturer = document.getElementById("manufacturer").value;
+  let price = document.getElementById("price").value;
+  let connectionType = document.getElementById("connectionType").value;
+  let isWireless = document.getElementById("isWireless").value;
+  let dpi = document.getElementById("dpi").value;
+  let stock = document.getElementById("stock").value;
+
+    let data = {
+      Id: 0,
+      Type: 7,
+      Name: name,
+      Manufacturer: manufacturer,
+      Price: Number(price),
+      ConnectionType: connectionType,
+      Wireless: await isWirelessFunc(Number(isWireless)),
+      DPI: Number(dpi),
+      StockNum: Number(stock)
+    };
+    console.log(JSON.stringify(data));
+  fetch(apiURL + 'Mouse', 
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    }
+  )
+  .then(response => response.json())
+}
+
+async function UploadKeyboard()
+{
+  let name = document.getElementById("name").value;
+  let manufacturer = document.getElementById("manufacturer").value;
+  let price = document.getElementById("price").value;
+  let connectionType = document.getElementById("connectionType").value;
+  let isWireless = document.getElementById("isWireless").value;
+  let keyboardType = document.getElementById("keyboardType").value;
+  let layout = document.getElementById("layout").value;
+  let size = document.getElementById("size").value;
+  let stock = document.getElementById("stock").value;
+
+    let data = {
+      Id: 0,
+      Type: 8,
+      Name: name,
+      Manufacturer: manufacturer,
+      Price: Number(price),
+      ConnectionType: connectionType,
+      Wireless: await isWirelessFunc(Number(isWireless)),
+      KeyboardType: keyboardType,
+      Layout: layout,
+      Size: Number(size),
+      StockNum: Number(stock)
+    };
+    console.log(JSON.stringify(data));
+  fetch(apiURL + 'Keyboard', 
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    }
+  )
+  .then(response => response.json())
+}
+
+async function isWirelessFunc(num)
+{
+  switch (num) {
+    case 1:
+      return false
+      break;
+    case 2:
+      return true
+      break;
+  }
+}
+
+export {GetCPU, UploadCPU, GetPreset, UploadMotherBoard, GetMotherboards, UploadRAM, UploadGPU, UploadStorage, UploadMonitor, UploadMouse, UploadKeyboard};
