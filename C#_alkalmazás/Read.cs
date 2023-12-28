@@ -43,6 +43,6 @@ namespace PC_alkatrészek
         public string Name { get => name; }
         public string Parameter1 { get => parameter1; }
         public string Parameter2 { get => parameter2; }
-        public int Price { get => price; }
+        public int Price { get => price; set => price = value; }
     }
 }

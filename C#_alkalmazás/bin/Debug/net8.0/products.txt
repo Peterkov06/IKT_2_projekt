@@ -1,0 +1,50 @@
+ssd;western digital nvme;60;1000;35000
+mouse;trust gaming 3000;4500;asd;5600
+hdd;seagate barracuda;5400;2000;20000
+cpu;intel core i5;3800;8;52560
+motherboard;asrock b450;am4;64;33250
+ram;kingston fury;2800;8;12000
+ssd;samsung 970 evo;85;500;50000
+gpu;nvidia geforce rtx 3080ti;5600;12;200000
+monitor;acer nitro;1920x1080;75;56990
+cpu;amd threadthripper;3200;64;64260
+cpu;amd ryzen 3;3500;4;24880
+cpu;ryzen 5 5600x;4500;8;31214
+cpu;amd ryzen 7 5700x;4800;16;46314
+cpu;intel core i9;4500;16;102964
+cpu;intel core i7 13500k;4500;12;37620
+ram;gskill trident z;3500;32;34000
+mouse;asus gaming;5600;usb stick;21350
+motherboard;msi gaming b550;am5;128;62600
+ram;kingston fury max;3000;32;34500
+gpu;amd radeon rx 5600xt;6500;12;150000
+ssd;samsung 850;45;500;2500
+hdd;western digital black;6800;2000;35000
+monitor;dell alienware;2560x1440;144;260000
+gpu;nvidia geforce gtx 1660;5000;8;126000
+cpu;intel core i7;4300;12;46773
+hdd;western digital red;6000;1000;21000
+cpu;amd ryzen 5 1600af;3400;6;29250
+cpu;amd ryzen 5 5600x;4500;12;46265
+mouse;steelseries;2500;usb;5600
+gpu;amd radeon rx 580 oc;5600;8;75000
+mouse;trust gaming;1500;wire;7600
+keyboard;wireshark white;mechanic;yes;25450
+monitor;acer nitro 5;1920x1080;75;34000
+hdd;western digital purple;5900;1500;25000
+ssd;kingston kc300;3500;1000;19900
+ssd;samsung 980 evo;7000;1000;27600
+hdd;seagate barracuda;7200;3500;2100
+keyboard;trust gaming;membranous;no;1500
+ram;corsair vengeance;3600;32;35920
+ram;gskill aegis;3000;16;13200
+monitor;samsung 4k;2560x1440;120;110000
+gpu;nvidia geforce gtx 1080ti;4500;12;89000
+motherboard;asus rogstrix b650;am5;128;82605
+cpu;intel core i5 12340k;3800;12;41314
+cpu;intel core i3 12300f;3500;4;23136
+cpu;amd ryzen 7 5700x;4500;12;90000
+cpu;intel core duo 8000;3200;2;13300
+mouse;logitech g564;1500;usb;4500
+hdd;asdf;1596;65489;15649
+cpu;intel core i5 12450h;3600;8;68550

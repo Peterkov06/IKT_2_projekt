@@ -6,9 +6,11 @@
         {
             Methods m = new();
 
-            m.ReadIn("proba.txt");
-            m.TxtWrite("proba.txt");
+            m.ReadIn("products.txt");
+            m.TxtWrite("products.txt");
             m.Search();
+            m.Statistics();
+            m.Sales("products.txt");
 
             Console.ReadKey();
         }

@@ -138,7 +138,7 @@ namespace PC_alkatrészek
             } while (strPrice == "" || number == false);
 
             //Return all things
-            return $"{type.ToLower()};{name.ToLower()};{parameter1.ToLower()};{parameter2.ToLower()};{price}";
+            return $"{type!.ToLower()};{name.ToLower()};{parameter1.ToLower()};{parameter2.ToLower()};{price}";
         }
 
         public void TxtWrite(string fajlnev)
@@ -165,7 +165,7 @@ namespace PC_alkatrészek
             string type;
             do { type = WriteInErrorHandlingStr("Enter the type of the product you want to search for: "); } while (!(types.Contains(type)));
 
-            for (int i = 0; i < products.Count; i++)
+            for (int i = 0; i < products!.Count; i++)
             {
                 if (products[i].Type == type)
                 {
@@ -180,12 +180,12 @@ namespace PC_alkatrészek
         {
             string name = WriteInErrorHandlingStr("Enter the name of the product you want to search for: ");
 
-            for (int i = 0; i < products.Count; i++)
+            for (int i = 0; i < products!.Count; i++)
             {
                 if (products[i].Name.Contains(name.ToLower()))
                 {
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine($"{products[i].Name} {products[i].Type}");
+                    Console.WriteLine($"\t{products[i].Name} {products[i].Type}");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
             }
@@ -215,17 +215,18 @@ namespace PC_alkatrészek
             } while (max_ == "" || number == false);
 
 
-            for (int i = 0; i < products.Count; i++)
+            for (int i = 0; i < products!.Count; i++)
             {
                 if (products[i].Price >= min && products[i].Price <= max)
                 {
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine($"{products[i].Name} {products[i].Type}; {products[i].Price}Ft");
+                    Console.WriteLine($"\t{products[i].Name} {products[i].Type}; {products[i].Price}Ft");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
             }
 
         }
+
         public void Search()
         {
             string response;
@@ -234,7 +235,7 @@ namespace PC_alkatrészek
             do { Console.Write("Do you want to search among the parts? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
             Console.ForegroundColor = ConsoleColor.White;
 
-            do
+            while (!(response.ToLower() == "no"))
             {
                 string keyword;
                 do { Console.WriteLine("What do you want to search for? Write down the keyword!"); Console.Write("(type/name/(between) prices): "); keyword = Console.ReadLine() ?? ""; } while (!(keyword == "type" || keyword == "name" || keyword == "price" || keyword == "prices"));
@@ -247,8 +248,95 @@ namespace PC_alkatrészek
                 do { Console.Write("Do you want to search among the parts? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
                 Console.ForegroundColor = ConsoleColor.White;
 
-            } while (!(response.ToLower() == "no"));
+            }
 
+        }
+
+        public void Statistics()
+        {
+            string response;
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            do { Console.Write("Do you want to see the statistics? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
+            Console.ForegroundColor = ConsoleColor.White;
+
+            if (!(response.ToLower() == "no"))
+            {
+                double length = products!.Count();
+                double sum;
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
+                for (int i = 0; i < types.Length; i++)
+                {
+                    sum = products!.Where(x => x.Type == types[i]).Count();
+
+                    Console.WriteLine($"\t{types[i]}s are {Math.Round((sum / length) * 100.0, 2)}% of the products.");
+
+                }
+               
+                Console.ForegroundColor = ConsoleColor.White;
+
+            }
+        }
+
+        public void RewriteFile_Sales(string fajlnev, string keyword, int percentage)
+        {
+            //Open file to rewrite
+            using (var input = File.OpenText(fajlnev))
+            using (var output = new StreamWriter("output.txt"))
+            {
+                string line;
+
+                while (null != (line = input.ReadLine()!))
+                {
+                    string[] parts = line.Trim(';').Trim('\n').Split(";");
+                    string type = parts[0];
+                    int price = Convert.ToInt32(parts[parts.Length - 1]);
+
+                    if (keyword.ToLower() == "all")
+                    {   
+                            price -= (price / 100) * percentage;
+                    }
+                    else
+                    {
+                        if (type == keyword.ToLower())
+                        {
+                            price -= (price / 100) * percentage;
+                        }
+                       
+                    }
+                    output.WriteLine($"{type};{parts[1]};{parts[2]};{parts[3]};{price}");
+                }
+            }
+            File.Replace("output.txt", fajlnev, null);
+        }
+
+        public void Sales(string fajlnev)
+        {
+            string response;
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            do { Console.Write("Do you want to put products on sale? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
+            Console.ForegroundColor = ConsoleColor.White;
+
+            do
+            {
+                string keyword;
+                int percentage = 0;
+
+                do { Console.WriteLine("Which products do you want to put on sale?"); Console.Write("Write down the type of the product, or if you want to put everything on sale, write 'all': "); keyword = Console.ReadLine() ?? ""; } while (!(types.Contains(keyword.ToLower()) || keyword.ToLower() == "all"));
+
+                do { percentage = Convert.ToInt32(WriteInErrorHandlingInt("Write down the percentage of the sale: ")); } while (!(percentage > 0 || percentage < 100));
+
+                RewriteFile_Sales(fajlnev, keyword, percentage);
+                ReadIn(fajlnev);                
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                do { Console.Write("Do you want to put other products on sale? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
+                Console.ForegroundColor = ConsoleColor.White;
+
+            } while (!(response.ToLower() == "no"));
         }
 
     }
