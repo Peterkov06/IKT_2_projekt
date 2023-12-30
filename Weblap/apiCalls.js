@@ -1,6 +1,10 @@
 const apiURL = 'http://peterdevserver.ddns.net:8080/api/';
-const outpuEl = document.getElementById("testout");
-document.body.addEventListener("load", GetUploadTypes())
+
+let doc = location.pathname.split("/");
+if (doc[doc.length - 1] == "adminsite.html")
+{
+  document.body.addEventListener("load", GetUploadTypes())
+}
 
 function GetUploadTypes()
 {
@@ -60,9 +64,9 @@ function UploadCPU()
   )
   .then(response => response.json())
 }
-async function GetCPU()
+async function GetListOfData(type)
 {
-  const response = await fetch(apiURL +'CPU')
+  const response = await fetch(apiURL + type)
 
   if (!response.ok)
   {
@@ -373,4 +377,4 @@ async function isWirelessFunc(num)
   }
 }
 
-export {GetCPU, UploadCPU, GetPreset, UploadMotherBoard, GetMotherboards, UploadRAM, UploadGPU, UploadStorage, UploadMonitor, UploadMouse, UploadKeyboard};
+export {GetListOfData, UploadCPU, GetPreset, UploadMotherBoard, GetMotherboards, UploadRAM, UploadGPU, UploadStorage, UploadMonitor, UploadMouse, UploadKeyboard};
