@@ -1,0 +1,4 @@
+<div class="card"><img class="card-img-top" src="picuters/ram.svg" alt="Ram"><div class="card-body"><h3 class="card-title">Gskill aegis ram</h3><p class="card-text"><ul><li>Frequency: 3500Mhz</li><li>Size: 8 gigabytes</li><li>Price: 22000Ft</li></ul></p></div></div>
+
+<div class="card"><img class="card-img-top" src="picuters/ssd.svg" alt="Ssd"><div class="card-body"><h3 class="card-title">Samsung nvme 800 ssd</h3><p class="card-text"><ul><li>Speed: 123Mb/s</li><li>Size: 1000 gigabytes</li><li>Price: 32000Ft</li></ul></p></div></div>
+

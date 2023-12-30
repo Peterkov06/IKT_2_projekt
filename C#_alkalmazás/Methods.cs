@@ -148,6 +148,7 @@ namespace PC_alkatrészek
             do
             {
                 string all = WriteIn();
+                GenerateHtml(all);
 
                 File.AppendAllText(fajlnev, all + Environment.NewLine);
 
@@ -158,6 +159,52 @@ namespace PC_alkatrészek
             } while (!(response.ToLower() == "no"));
 
             ReadIn(fajlnev);
+        }
+
+        public void GenerateHtml(string all)
+        {
+            string[] parts = all.Trim(';').Split(";");
+            string type = parts[0];
+            string name = parts[1];
+            string p1 = parts[2];
+            string p2 = parts[3];
+            int price = Convert.ToInt32(parts[4]);
+
+            string html = "";
+
+            switch (type)
+            {
+                case "cpu":
+                    html = $"<div class=\"card\"><img class=\"card-img-top\" src=\"picuters/cpu.svg\" alt=\"Cpu\"><div class=\"card-body\"><h3 class=\"card-title\">{char.ToUpper(name[0]) + name.Substring(1)} {type}</h3><p class=\"card-text\"><ul><li>Frequency: {p1}Mhz</li><li>Cores: {p2}</li><li>Price: {price}Ft</li></ul></p></div></div>";
+                    break;
+                case "motherboard":
+                    html = $"<div class=\"card\"><img class=\"card-img-top\" src=\"picuters/motherboard.svg\" alt=\"Motherboard\"><div class=\"card-body\"><h3 class=\"card-title\">{char.ToUpper(name[0]) + name.Substring(1)} {type}</h3><p class=\"card-text\"><ul><li>Cpu socket: {p1}</li><li>Maximum amount of ram: {p2}</li><li>Price: {price}Ft</li></ul></p></div></div>";
+                    break;
+                case "ram":
+                    html = html = $"<div class=\"card\"><img class=\"card-img-top\" src=\"picuters/ram.svg\" alt=\"Ram\"><div class=\"card-body\"><h3 class=\"card-title\">{char.ToUpper(name[0]) + name.Substring(1)} {type}</h3><p class=\"card-text\"><ul><li>Frequency: {p1}Mhz</li><li>Size: {p2} gigabytes</li><li>Price: {price}Ft</li></ul></p></div></div>";
+                    break;
+                case "gpu":
+                    html = $"<div class=\"card\"><img class=\"card-img-top\" src=\"picuters/video-card.svg\" alt=\"Video card\"><div class=\"card-body\"><h3 class=\"card-title\">{char.ToUpper(name[0]) + name.Substring(1)} {type}</h3><p class=\"card-text\"><ul><li>Frequency: {p1}Mhz</li><li>Memory size: {p2}</li><li>Price: {price}Ft</li></ul></p></div></div>";
+                    break;
+                case "hdd":
+                    html = $"<div class=\"card\"><img class=\"card-img-top\" src=\"picuters/hdd.svg\" alt=\"Hdd\"><div class=\"card-body\"><h3 class=\"card-title\">{char.ToUpper(name[0]) + name.Substring(1)} {type}</h3><p class=\"card-text\"><ul><li>Speed: {p1}Rpm</li><li>Size: {p2} gigabytes</li><li>Price: {price}Ft</li></ul></p></div></div>";
+                    break;
+                case "ssd":
+                    html = $"<div class=\"card\"><img class=\"card-img-top\" src=\"picuters/ssd.svg\" alt=\"Ssd\"><div class=\"card-body\"><h3 class=\"card-title\">{char.ToUpper(name[0]) + name.Substring(1)} {type}</h3><p class=\"card-text\"><ul><li>Speed: {p1}Mb/s</li><li>Size: {p2} gigabytes</li><li>Price: {price}Ft</li></ul></p></div></div>";
+                    break;
+                case "monitor":
+                    html = $"<div class=\"card\"><img class=\"card-img-top\" src=\"picuters/monitor.svg\" alt=\"Monitor\"><div class=\"card-body\"><h3 class=\"card-title\">{char.ToUpper(name[0]) + name.Substring(1)} {type}</h3><p class=\"card-text\"><ul><li>Resolution: {p1}</li><li>Image refresh: {p2}Hz</li><li>Price: {price}Ft</li></ul></p></div></div>";
+                    break;
+                case "mouse":
+                    html = $"<div class=\"card\"><img class=\"card-img-top\" src=\"picuters/mouse.svg\" alt=\"Mouse\"><div class=\"card-body\"><h3 class=\"card-title\">{char.ToUpper(name[0]) + name.Substring(1)} {type}</h3><p class=\"card-text\"><ul><li>Sensivity: {p1} dpi</li><li>Connection: {p2}</li><li>Price: {price}Ft</li></ul></p></div></div>";
+                    break;
+                case "keyboard":
+                    html = $"<div class=\"card\"><img class=\"card-img-top\" src=\"picuters/keyboard.svg\" alt=\"Keyboard\"><div class=\"card-body\"><h3 class=\"card-title\">{char.ToUpper(name[0]) + name.Substring(1)} {type}</h3><p class=\"card-text\"><ul><li>The kind of switch: {p1}</li><li>Does it have numpad?: {p2}</li><li>Price: {price}Ft</li></ul></p></div></div>";
+                    break;
+            }
+
+            File.AppendAllText("html.txt", html + Environment.NewLine + Environment.NewLine);
+
         }
 
         public void SearchType()
@@ -187,6 +234,10 @@ namespace PC_alkatrészek
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine($"\t{products[i].Name} {products[i].Type}");
                     Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.WriteLine("There aren't such parts in the database.");
                 }
             }
 
@@ -320,7 +371,7 @@ namespace PC_alkatrészek
             do { Console.Write("Do you want to put products on sale? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
             Console.ForegroundColor = ConsoleColor.White;
 
-            do
+            while (!(response.ToLower() == "no"))
             {
                 string keyword;
                 int percentage = 0;
@@ -336,7 +387,7 @@ namespace PC_alkatrészek
                 do { Console.Write("Do you want to put other products on sale? (Yes/No): "); response = Console.ReadLine() ?? ""; } while (!(response.ToLower() == "yes" || response.ToLower() == "no"));
                 Console.ForegroundColor = ConsoleColor.White;
 
-            } while (!(response.ToLower() == "no"));
+            }
         }
 
     }
