@@ -1,5 +1,7 @@
 import { GetListOfData } from "./apiCalls.js";
 
+let cart = [];
+
 window.addEventListener("scroll",function () {
   let navBar = this.document.getElementsByClassName("navBar")[0];
   if (this.window.scrollY > 90)
@@ -48,7 +50,7 @@ async function OpenOverlaySelect(x, event)
     <div class="row">
       <div class="col-3 filterDiv">
         <h2>Szűrők</h2>
-        <input type="text" class="myInput" id="myInput">
+        <div><input type="text" class="myInput" id="myInput"></div>
       </div>
       <div class="verticalDivider"></div>
       <div class="col-9">
@@ -701,21 +703,71 @@ function replaceButton(selectOpts, obj, x)
   selectOpts.parentElement.appendChild(selectedDiv);
 
   let cartElem = document.getElementsByClassName("cartElement")[x];
-
-  cartElem.innerHTML = `<div class="minWidthSet">${obj.name}</div> <div class="toLeftItem">${obj.price} Ft</div>`;
+  cart.push(obj);
+  cartElem.innerHTML = `<div class="minWidthSet">${obj.name}</div> <div class="toLeftItem">${GeneratePrice(obj.price)} Ft</div>`;
+  document.getElementsByClassName("cart")[0].getElementsByTagName("hr")[x].classList.toggle("hidden");
   cartElem.style.display = "flex";
 
   deleteBtn.addEventListener("click", function () {
-    ResetButton(x, selectOpts)
+    ResetButton(x, selectOpts, obj)
   })
+
+  showFinalPrice();
 }
 
-function ResetButton(x, selectOpts)
+function ResetButton(x, selectOpts, obj)
 {
   selectOpts.style.display = "block";
   let toRemove = selectOpts.parentElement.getElementsByClassName("rowDiv")[0];
   toRemove.remove();
+  document.getElementsByClassName("cart")[0].getElementsByTagName("hr")[x].classList.toggle("hidden");
   let cartElem = document.getElementsByClassName("cartElement")[x];
   cartElem.innerHTML = ``;
   cartElem.style.display = "none";
+  let cartRemove = cart.indexOf(obj);
+  cart.splice(cartRemove, 1);
+  showFinalPrice();
+}
+
+function showFinalPrice()
+{
+  let priceElement = document.getElementsByClassName("finalPrice")[0];
+  if(cart.length > 0)
+  {
+    if (priceElement.classList.contains("hidden")) 
+    {
+      priceElement.classList.remove("hidden");
+      document.getElementsByClassName("purchaseBtn")[0].disabled = false;
+    }
+    let prices = 0;
+    cart.forEach(element => {
+      prices += Number(element.price);
+    })
+    priceElement.getElementsByClassName("finalPriceDiv")[0].innerHTML = `${GeneratePrice(prices)} Ft`;
+    }
+  else if (cart.length == 0)
+  {
+    priceElement.classList.add("hidden");
+    document.getElementsByClassName("purchaseBtn")[0].disabled = true;
+  }
+}
+
+function GeneratePrice(prices)
+{
+  let priceTxt = "";
+  let tempPrice = prices.toString();
+  let count = 1;
+  for (let index = tempPrice.length - 1; index >= 0; index--) {
+    if (count % 3 == 0)
+    {
+      priceTxt += `${tempPrice[index]} `;
+    }
+    else
+    {
+      priceTxt += `${tempPrice[index]}`;
+    }
+    count++;
+  }
+  let newPriceTxt = [...priceTxt].reverse().join("");
+  return newPriceTxt;
 }
