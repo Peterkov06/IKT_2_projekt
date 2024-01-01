@@ -14,6 +14,27 @@ window.addEventListener("scroll",function () {
   }
 })
 
+let reviewStars = document.getElementsByClassName("reviewStars")[0].getElementsByTagName("span");
+
+for (let star of reviewStars) 
+{
+  star.addEventListener("click", function () {
+    CheckStar();
+    this.setAttribute("data-clicked", true);
+  });
+}
+
+function CheckStar()
+{
+  for (let star of reviewStars)
+  {
+    if (star.hasAttribute("data-clicked") == true)
+    {
+      star.removeAttribute("data-clicked");
+    }
+  }
+}
+
 let dropdownBtns = document.getElementsByClassName('dropdownBtn');
 for (let ind = 0; ind < dropdownBtns.length; ind++) {
   dropdownBtns[ind].addEventListener('click', function (event) {
