@@ -305,6 +305,16 @@ hr.hidden, .finalPrice.hidden
   font-size: 1.1rem;
   color: var(--color-5);
 }
+.finalPay
+{
+  margin: 30px;
+  padding: 10px 30px;
+  font-weight: bold;
+  border-radius: 5px;
+  font-family: myFont;
+  font-size: 1.4rem;
+  color: var(--color-5);
+}
 
 .centerDiv
 {
@@ -362,6 +372,7 @@ hr.hidden, .finalPrice.hidden
   border-radius: 5px;
   padding: 0px 10px;
   margin: 10px;
+  background-color: rgba(194, 20, 96, 0.5);
 }
 
 .review p 

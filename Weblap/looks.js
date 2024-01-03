@@ -1,6 +1,7 @@
-import { GetListOfData } from "./apiCalls.js";
+import { GetListOfData, SendComment } from "./apiCalls.js";
 
 let cart = [];
+const types = [1, 2, 3, 4, 5, 6, 7, 8]
 
 window.addEventListener("scroll",function () {
   let navBar = this.document.getElementsByClassName("navBar")[0];
@@ -12,6 +13,10 @@ window.addEventListener("scroll",function () {
   {
     navBar.classList.add("hidden");
   }
+})
+
+window.addEventListener("load", () => {
+  CreateComments();
 })
 
 let reviewStars = document.getElementsByClassName("reviewStars")[0].getElementsByTagName("span");
@@ -42,10 +47,114 @@ for (let ind = 0; ind < dropdownBtns.length; ind++) {
   });
 }
 
+document.getElementsByClassName("reviewBtn")[0].addEventListener("click", function () {
+  let writerName = document.getElementById("reviewerName").value;
+  let commentStrg = document.getElementById("comment").value;
+  let data = {
+    Stars: document.querySelector('[data-clicked="true"]').getAttribute('data-starNum'),
+    Name: writerName,
+    CommentStrg: commentStrg
+  }
+  SendComment(data);
+  alert("Hozzászólás sikeresen közzétéve!");
+  CreateComments();
+  document.querySelector('[data-clicked="true"]').removeAttribute("data-clicked");
+  document.getElementById("reviewerName").value = "";
+  document.getElementById("comment").value = "";
+})
+document.getElementsByClassName("purchaseBtn")[0].addEventListener("click", function (event) {
+  let cartTypes = Array.from(types);
+  cart.forEach(cartElem => {
+    cartTypes.splice(cartTypes.indexOf(cartElem.type), 1);
+  });
+  let missing = "";
+  cartTypes.forEach(elem => {
+    switch (elem) {
+      case 1:
+        missing += "Alaplap";
+        break;
+      case 2:
+        missing += " Processzor";
+        break;
+      case 3:
+        missing += " Memória";
+        break;
+      case 4:
+        missing += " Videókártya";
+        break;
+      case 5:
+        missing += " Háttértár";
+        break;
+      case 6:
+        missing += " Monitor";
+        break;
+      case 7:
+        missing += " Egér";
+        break;
+      case 8:
+        missing += " Billentyűzet";
+        break;
+      default:
+        break;
+    }
+    if (cartTypes.length > 1 && cartTypes.indexOf(elem) < cartTypes.length - 1)
+    {
+      missing += ',';
+    }
+  })
+  if (confirm(`Hiányzó alkatrészek: ${missing}.\n\nFolytatja a fizetést?`))
+  {
+    Payment(event);
+  }
+})
+
+
+function Payment(event)
+{
+  let overlay = document.getElementsByClassName("overlaySelect")[0];
+  overlay.style.display = "block";
+  document.body.classList.add('stop-scrolling');
+  document.getElementsByClassName("overlay")[0].style.display = "block";
+
+  overlay.innerHTML = `<div class="toLeft closeOverlay"><a href="javascript:void(0)">&times;</a></div>
+  <div class="container">
+  <h1 class="center-text">Fizetés</h1>
+    <div class="row payDiv">
+      <div class="col-6">
+        <div class="inputField"><label>Vásárló neve: <input type="text"></label></div>
+        <div class="inputField"><label>Vásárló születési éve: <input type="date"></label></div>
+        <div class="inputField"><label>Fizetési mód: </label></div>
+        <div class="paymentChoose">
+          <div>
+            <input type="radio" id="card" name="paymentM" value="card">
+            <label for="card">Kártyás fizetés online</label>
+          </div>
+          <div>
+            <input type="radio" id="transfer" name="paymentM" value="transfer">
+            <label for="transfer">Utalás</label>
+          </div>
+          <div>
+            <input type="radio" id="COD" name="paymentM" value="COD">
+            <label for="COD">Utánvét</label>
+          </div>
+        </div>
+        <div class="inputField"><label>Átvételi város neve: <input type="text"></label></div>
+        <input type="button" value="Fizetés" class="finalPay">
+      </div>
+  </div>`;
+  document.getElementsByClassName("closeOverlay")[0].addEventListener('click', function () {
+    CloseOverlaySelect();
+  });
+  document.getElementsByClassName("finalPay")[0].addEventListener("click", function (event) {
+    alert("Sikeres megrendelés!");
+    location.reload();
+  });
+  event.stopPropagation();
+}
+
 function FilterSearch()
 {
-  console.log('WHY');
-  let input = document.getElementsByClassName("myInput")[0];
+  let input = document.getElementsByClassName("filterInput")[0];
   let filter = input.value.toUpperCase();
   let a = document.getElementsByClassName("componentName");
   for (let index = 0; index < a.length; index++) {
@@ -59,7 +168,7 @@ function FilterSearch()
 
 }
 
-async function OpenOverlaySelect(x, event)
+async function OpenOverlaySelect(x, originalEvent)
 {
   let overlay = document.getElementsByClassName("overlaySelect")[0];
   overlay.style.display = "block";
@@ -71,7 +180,7 @@ async function OpenOverlaySelect(x, event)
     <div class="row">
       <div class="col-3 filterDiv">
         <h2>Szűrők</h2>
-        <div><input type="text" class="myInput" id="myInput"></div>
+        <div><input type="text" class="filterInput" id="filterInput"></div>
       </div>
       <div class="verticalDivider"></div>
       <div class="col-9">
@@ -86,11 +195,8 @@ async function OpenOverlaySelect(x, event)
 
   let optionsDiv =  document.getElementsByClassName("choosableOptions")[0];
   let typeName =  document.getElementsByClassName("selectType")[0];
-  document.getElementsByClassName("myInput")[0].onkeyup = function () {
-    FilterSearch();};
 
-  event.stopPropagation();
-  
+  originalEvent.stopPropagation();
 
   let data = undefined;
   switch (x) {
@@ -143,6 +249,14 @@ async function OpenOverlaySelect(x, event)
   })
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("input", function (event) {
+    if (event.target.id === "filterInput") {
+      FilterSearch()
+    }
+  });
+});
+
 async function CloseOverlaySelect(x, event)
 {
   let overlay = document.getElementsByClassName("overlaySelect")[0];
@@ -166,16 +280,19 @@ async function GenerateCPUelements(list, currDropdown, x)
     let currCardData = [];
     currCardData.push(`${list[index].name}`);
     currCardData.push(`${list[index].price}`);
-    thisManu.push(manufacturers[list[index].manufacturer - 1]);
+    if (!thisManu.includes(manufacturers[list[index].manufacturer - 1]))
+    {thisManu.push(manufacturers[list[index].manufacturer - 1]);};
     currCardData.push(`Gyártó: ${manufacturers[list[index].manufacturer - 1].manufacturerName}`);
     currCardData.push(`Magok: ${cores[list[index].coreNum - 1].coreNum} db`);
     currCardData.push(`Szálak: ${threads[list[index].threadCount - 1].threadNum} db`);
     currCardData.push(`Foglalat: ${sockets[list[index].socketType - 1].cpUsocketType}`);
     currCardData.push(`DDR típus: ${ddrs[list[index].ddRtype - 1].ddRtypeName}`);
     currCardData.push(`Órajel: ${list[index].clockSpeed} GHz`);
-    thisClocks.push(list[index].clockSpeed);
+    if (!thisClocks.includes(list[index].clockSpeed))
+    {thisClocks.push(list[index].clockSpeed);};
     currCardData.push(`Turbó órajel: ${list[index].turboClockSpeed} GHz`);
-    thisTurboClocks.push(list[index].turboClockSpeed);
+    if (!thisTurboClocks.includes(list[index].turboClockSpeed))
+    {thisTurboClocks.push(list[index].turboClockSpeed);};
     currCardData.push(`Max memória: ${list[index].maxRAM} GB`);
     currDropdown.innerHTML += await CreateSelectableCard(currCardData);
   }
@@ -233,18 +350,23 @@ async function GenerateMotherboardElements(list, currDropdown, x)
     let currCardData = [];
     currCardData.push(`${list[index].name}`);
     currCardData.push(`${list[index].price}`);
-    thisManu.push(manufacturers[list[index].manufacturer - 1]);
+    if (!thisManu.includes(manufacturers[list[index].manufacturer - 1]))
+    {thisManu.push(manufacturers[list[index].manufacturer - 1]);}
     currCardData.push(`Gyártó: ${manufacturers[list[index].manufacturer - 1].manufacturerName}`);
     currCardData.push(`Foglalat: ${sockets[list[index].cpUsocket - 1].cpUsocketType}`);
     currCardData.push(`DDR típus: ${ddrs[list[index].ddRtype - 1].ddRtypeName}`);
     currCardData.push(`Memória foglalatok: ${list[index].ramSlots} db`);
-    thisRAM.push(list[index].ramSlots);
+    if (!thisRAM.includes(list[index].ramSlots))
+    {thisRAM.push(list[index].ramSlots);}
     currCardData.push(`SATA foglalatok: ${list[index].sataNum} db`);
-    thisSATA.push(list[index].sataNum);
+    if (!thisSATA.includes(list[index].sataNum))
+    {thisSATA.push(list[index].sataNum);}
     currCardData.push(`M.2 foglalatok: ${list[index].m2Num} db`);
-    thisM2.push(list[index].m2Num);
+    if (!thisM2.includes(list[index].m2Num))
+    {thisM2.push(list[index].m2Num);}
     currCardData.push(`PCIe foglalatok: ${list[index].pcIeNum} db`);
-    thisPCIe.push(list[index].pcIeNum);
+    if (!thisPCIe.includes(list[index].pcIeNum))
+    {thisPCIe.push(list[index].pcIeNum);}
     currDropdown.innerHTML += await CreateSelectableCard(currCardData);
   }
   let a = currDropdown.getElementsByClassName("selectableOpt");
@@ -302,13 +424,16 @@ async function GenerateRAMElements(list, currDropdown, x)
     let currCardData = [];
     currCardData.push(`${list[index].name}`);
     currCardData.push(`${list[index].price}`);
-    thisManu.push(manufacturers[list[index].manufacturer - 1]);
+    if (!thisManu.includes(manufacturers[list[index].manufacturer - 1]))
+    {thisManu.push(manufacturers[list[index].manufacturer - 1]);}
     currCardData.push(`Gyártó: ${manufacturers[list[index].manufacturer - 1].manufacturerName}`);
     currCardData.push(`DDR típus: ${ddrs[list[index].ddRtype - 1].ddRtypeName}`);
     currCardData.push(`Kapacitás: ${list[index].amount} GB`);
-    thisRAM.push(list[index].amount);
+    if (!thisRAM.includes(list[index].amount))
+    {thisRAM.push(list[index].amount);}
     currCardData.push(`Órajel: ${list[index].clockSpeed} MHz`);
-    thisClock.push(list[index].clockSpeed);
+    if (!thisClock.includes(list[index].clockSpeed))
+    {thisClock.push(list[index].clockSpeed);}
     currCardData.push(`Modulok: ${modules[list[index].kitNum - 1].raMkitNum} db`);
     currCardData.push(`Overclock típusa: ${overclocks[list[index].overclockType - 1].name}`);
     currDropdown.innerHTML += await CreateSelectableCard(currCardData);
@@ -365,24 +490,29 @@ async function GenerateStorageElements(list, currDropdown, x)
     let currCardData = [];
     currCardData.push(`${list[index].name}`);
     currCardData.push(`${list[index].price}`);
-    thisManu.push(manufacturers[list[index].manufacturer - 1]);
+    if (!thisManu.includes(manufacturers[list[index].manufacturer - 1]))
+    {thisManu.push(manufacturers[list[index].manufacturer - 1]);};
     currCardData.push(`Gyártó: ${manufacturers[list[index].manufacturer - 1].manufacturerName}`);
     currCardData.push(`Típus: ${types[list[index].storageType - 1].storageTypeName}`);
     if (list[index].storageType == 1)
     {
       currCardData.push(`RPM (fordulatszám): ${list[index].readSpeed}`);
-      thisRPM.push(list[index].readSpeed);
+      if (!thisRPM.includes(list[index].readSpeed))
+      {thisRPM.push(list[index].readSpeed);}
     }
     else
     {
       currCardData.push(`Olvasási sebesség: ${list[index].readSpeed} MB/s`);
       currCardData.push(`Írási sebesség: ${list[index].writeSpeed} MB/s`);
-      thisRead.push(list[index].readSpeed);
-      thisWrite.push(list[index].writeSpeed);
+      if (!thisRead.includes(list[index].readSpeed))
+      {thisRead.push(list[index].readSpeed);};
+      if (!thisWrite.includes(list[index].writeSpeed))
+      {thisWrite.push(list[index].writeSpeed);};
     }
     currCardData.push(`Csatlakozó: ${storageconns[list[index].connectionType - 1].storageConnectionName}`);
     currCardData.push(`Méret: ${list[index].space} GB`);
-    thisSize.push(list[index].space);
+    if (!thisSize.includes(list[index].space))
+    {thisSize.push(list[index].space);};
     currDropdown.innerHTML += await CreateSelectableCard(currCardData);
   }
   let a = currDropdown.getElementsByClassName("selectableOpt");
@@ -439,15 +569,19 @@ async function GenerateGPUElements(list, currDropdown, x)
     let currCardData = [];
     currCardData.push(`${list[index].name}`);
     currCardData.push(`${list[index].price}`);
-    thisManu.push(manufacturers[list[index].manufacturer - 1]);
+    if (!thisManu.includes(manufacturers[list[index].manufacturer - 1]))
+    {thisManu.push(manufacturers[list[index].manufacturer - 1]);};
     currCardData.push(`Gyártó: ${manufacturers[list[index].manufacturer - 1].manufacturerName}`);
     currCardData.push(`VRAM: ${list[index].vraMamount} GB`);
-    thisVRAM.push(list[index].vraMamount);
+    if (!thisVRAM.includes(list[index].vraMamount))
+    {thisVRAM.push(list[index].vraMamount);};
     currCardData.push(`GDDR típus: ${gddrs[list[index].gddRtype - 1].gddRtypeName}`);
     currCardData.push(`Órajel: ${list[index].clockSpeed} MHz`);
-    thisClocks.push(list[index].clockSpeed);
+    if (!thisClocks.includes(list[index].clockSpeed))
+    {thisClocks.push(list[index].clockSpeed);};
     currCardData.push(`Magok száma: ${list[index].coreNum}`);
-    thisCores.push(list[index].coreNum);
+    if (!thisCores.includes(list[index].coreNum))
+    {thisCores.push(list[index].coreNum);};
     currDropdown.innerHTML += await CreateSelectableCard(currCardData);
   }
   let a = currDropdown.getElementsByClassName("selectableOpt");
@@ -497,12 +631,15 @@ async function GenerateMonitorElements(list, currDropdown, x)
     let currCardData = [];
     currCardData.push(`${list[index].name}`);
     currCardData.push(`${list[index].price}`);
-    thisManu.push(manufacturers[list[index].manufacturer - 1]);
+    if (!thisManu.includes(manufacturers[list[index].manufacturer - 1]))
+    {thisManu.push(manufacturers[list[index].manufacturer - 1]);};
     currCardData.push(`Gyártó: ${manufacturers[list[index].manufacturer - 1].manufacturerName}`);
     currCardData.push(`Méret: ${list[index].size}"`);
-    thisSize.push(list[index].size);
+    if (!thisSize.includes(list[index].size))
+    {thisSize.push(list[index].size);};
     currCardData.push(`Felbontás: ${list[index].xresolution} * ${list[index].yresolution} pixel`);
-    thisRes.push(`${list[index].xresolution} * ${list[index].yresolution}`);
+    if (!thisRes.includes(`${list[index].xresolution} * ${list[index].yresolution}`))
+    {thisRes.push(`${list[index].xresolution} * ${list[index].yresolution}`);};
     currCardData.push(`Panel típus: ${panels[list[index].monitorType - 1].name}`);
     currCardData.push(`Színhelyesség (DCI-P3): ${list[index].colorAccuracy}%`);
     currCardData.push(`Fényerő: ${list[index].brightness} nit`);
@@ -553,7 +690,8 @@ async function GenerateMouseElements(list, currDropdown, x)
     let currCardData = [];
     currCardData.push(`${list[index].name}`);
     currCardData.push(`${list[index].price}`);
-    thisManu.push(manufacturers[list[index].manufacturer - 1]);
+    if (!thisManu.includes(manufacturers[list[index].manufacturer - 1]))
+    {thisManu.push(manufacturers[list[index].manufacturer - 1]);};
     currCardData.push(`Gyártó: ${manufacturers[list[index].manufacturer - 1].manufacturerName}`);
     currCardData.push(`Csatlakozás: ${conns[list[index].connectionType - 1].pConnectionName}`);
     let wireless = "";
@@ -567,7 +705,8 @@ async function GenerateMouseElements(list, currDropdown, x)
     }
     currCardData.push(`Vezeték nélküli: ${wireless}`);
     currCardData.push(`DPI: ${list[index].dpi}`);
-    thisDPI.push(list[index].dpi);
+    if (!thisDPI.includes(list[index].dpi))
+    {thisDPI.push(list[index].dpi);};
     currDropdown.innerHTML += await CreateSelectableCard(currCardData);
   }
   let a = currDropdown.getElementsByClassName("selectableOpt");
@@ -608,17 +747,18 @@ async function GenerateKeyboardElements(list, currDropdown, x)
     let currCardData = [];
     currCardData.push(`${list[index].name}`);
     currCardData.push(`${list[index].price}`);
-    thisManu.push(manufacturers[list[index].manufacturer - 1]);
+    if (!thisManu.includes(manufacturers[list[index].manufacturer - 1]))
+    {thisManu.push(manufacturers[list[index].manufacturer - 1]);};
     currCardData.push(`Gyártó: ${manufacturers[list[index].manufacturer - 1].manufacturerName}`);
     currCardData.push(`Csatlakozás: ${conns[list[index].connectionType - 1].pConnectionName}`);
     let wireless = "";
     if (list[index].wireless == true)
     {
-      wireless = "igen";
+      wireless = "Igen";
     }
     else
     {
-      wireless = "nem";
+      wireless = "Nem";
     }
     currCardData.push(`Vezeték nélküli: ${wireless}`);
     currCardData.push(`Típus: ${type[list[index].keyboardType - 1].typeName}`);
@@ -691,6 +831,25 @@ async function CreateSelectableCard(dataList)
     <div class="attributesDiv row wrappable">${attributes}</div>
   </div>`;
   return card;
+}
+
+async function CreateComments()
+{
+  let data = await GetListOfData("Reviews");
+  let div = document.getElementsByClassName("reviews")[0];
+  div.innerHTML = "";
+  data.forEach(
+    dat => {
+      let star = "";
+      for (let index = 0; index < dat.stars; index++) {
+        star += "&#9733;"; 
+      }
+      div.innerHTML += `<div class="review">
+      <h3>${dat.name.toString()}: ${star}</h3>
+      <p><q>${dat.commentStrg.toString()}</q></p>
+    </div>`
+    }
+  )
 }
 
 document.body.addEventListener('click', function( event ){

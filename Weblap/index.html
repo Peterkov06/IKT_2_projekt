@@ -30,7 +30,7 @@
           <h2>Válaszd ki az alkatrészeket!</h2>
           <hr>
           <div class="choosable">
-            <h3>1. CPU</h3>
+            <h3>1. Processzor</h3>
               <div class="selectOptions">
                 <input type="button" value="Válassz!" class="dropdownBtn">
               </div>
@@ -44,7 +44,7 @@
           </div>
           <hr>
           <div class="choosable">
-            <h3>3. RAM</h3>
+            <h3>3. Memória</h3>
               <div class="selectOptions">
                 <input type="button" value="Válassz!" class="dropdownBtn">
               </div>
@@ -58,7 +58,7 @@
           </div>
           <hr>
           <div class="choosable">
-            <h3>5.GPU</h3>
+            <h3>5. Videókártya</h3>
               <div class="selectOptions">
                 <input type="button" value="Válassz!" class="dropdownBtn">
               </div>
@@ -117,61 +117,42 @@
     </div>
   </div>
   <footer>
-    <div class="myFooter">
-      <div class="container">
-        <div class="row">
-          <div class="col-6">
-            <h2>Értékelések:</h2>
-            <div class="reviews">
-              <div class="review">
-                <h3>Nagy Jóska: &#9733;&#9733;&#9733;&#9733;</h3>
-                <p><q>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, quis. Reiciendis inventore esse laboriosam sequi, quae commodi culpa at corporis rem ut, magnam iusto aspernatur nam eaque maiores deleniti ex?
-                Atque culpa perspiciatis qui recusandae, error voluptates temporibus consequuntur fugit hic minus, consectetur impedit corporis esse in odio ducimus. Quae optio quas possimus est aperiam ratione ipsa quibusdam. Minima, mollitia.</q></p>
-              </div>
-              <div class="review">
-                <h3>Nagy Jóska: &#9733;&#9733;&#9733;&#9733;&#9733;</h3>
-                <p><q>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati nesciunt, quia quo perspiciatis totam autem unde at necessitatibus nostrum aperiam, id corporis quod? Consequuntur ex quia cumque odio autem hic.
-                Fuga ducimus debitis sed ut esse magni, vitae recusandae error nihil iure cum. Hic deleniti dolorem sequi ipsam commodi! Expedita ducimus amet sed fugiat, pariatur ipsum minus omnis a eligendi!
-                Nihil blanditiis alias accusamus distinctio magnam numquam porro repellat recusandae libero eveniet voluptatem veritatis esse aliquid adipisci animi, et, culpa sapiente, sint mollitia? Nostrum minus, provident ipsam facilis aspernatur deserunt.
-                Iste doloribus beatae harum maiores repellat, facere natus ad aperiam magnam alias dolor nam rem asperiores ab minus architecto eos ipsam hic numquam? Quasi consequuntur nemo libero veritatis, corrupti quis.
-                Saepe quia ad incidunt voluptate sit itaque! Corrupti perferendis, iusto numquam est quisquam fugit vitae dolores rerum quasi deleniti velit maxime ipsam odio nulla consequuntur facere praesentium! Enim, amet doloremque!</q></p>
-              </div>
-              <div class="review">
-                <h3>Nagy Jóska: &#9733;&#9733;</h3>
-                <p><q>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi maiores quaerat ut ab blanditiis sequi est labore, quam magnam ullam delectus dignissimos qui facere ratione recusandae, aut odio? Suscipit, natus!
-                Expedita dolores sed nihil mollitia, accusantium quisquam deleniti repellendus quis fuga rerum sint, quod, libero similique aut quae repudiandae neque explicabo debitis fugit! Ullam minima ducimus dolorem magnam laudantium fugiat?
-                Illum, ad sint. Sunt amet unde quisquam esse animi at, dicta labore enim repellat accusantium harum facilis rem corrupti earum quidem voluptatum ducimus vero fugit eius optio, quo nihil doloribus.</q></p>
-              </div>
+    <div class="container myFooter">
+      <div class="row">
+        <div class="col-1 rateSide">
+          <h2>Értékelje oldalunkat!</h2>
+          <div class="row normalJustify">
+            <div class="reviewStars">
+              <span data-starNum="5">&#9733;</span>
+              <span data-starNum="4">&#9733;</span>
+              <span data-starNum="3">&#9733;</span>
+              <span data-starNum="2">&#9733;</span>
+              <span data-starNum="1">&#9733;</span>
             </div>
           </div>
-          <div class="verticalDivider"></div>
-          <div class="col-6 rateSide">
-            <h2>Értékelje oldalunkat!</h2>
-            <div class="row normalJustify">
-              <div class="reviewStars">
-                <span>&#9733;</span>
-                <span>&#9733;</span>
-                <span>&#9733;</span>
-                <span>&#9733;</span>
-                <span>&#9733;</span>
-              </div>
-            </div>
-            <div class="row normalJustify">
-              <div class=""><label>Név: <input type="text"></label></div>
-            </div>
-            <div class="row normalJustify">
-              <div><label class="itemsTop">Komment: <textarea name="comment" id="comment" cols="30" rows="2" class="nameInputDiv"></textarea></label></div>
-            </div>
-            <div class="row normalJustify">
-              <div class=""><input type="button" value="Értékelés!" class="purchaseBtn"></div>
-            </div>
+          <div class="row normalJustify">
+            <div class=""><label>Név: <input type="text" id="reviewerName"></label></div>
+          </div>
+          <div class="row normalJustify">
+            <div><label class="itemsTop">Komment: <textarea name="comment" id="comment" cols="30" rows="2" class="nameInputDiv"></textarea></label></div>
+          </div>
+          <div class="row normalJustify">
+            <div class=""><input type="button" value="Értékelés!" class="purchaseBtn reviewBtn"></div>
           </div>
         </div>
-        <div class="centerDiv">
-          <p>&copy; Kovács Péter 11.F 2023/24</p>
+        <div class="verticalDivider"></div>
+        <div class="col-8">
+          <h2>Értékelések:</h2>
+          <div class="reviews">
+            
+          </div>
         </div>
       </div>
+      <div class="centerDiv">
+        <p>&copy; Kovács Péter 11.F 2023/24</p>
+      </div>
     </div>
+
   </footer>
   <script src="looks.js" type="module"></script>
   <script src="apiCalls.js" type="module"></script>

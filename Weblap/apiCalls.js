@@ -63,6 +63,8 @@ function UploadCPU()
     }
   )
   .then(response => response.json())
+  alert("Sikeres feltöltés!");
+  location.reload();
 }
 async function GetListOfData(type)
 {
@@ -128,6 +130,8 @@ function UploadMotherBoard()
     }
   )
   .then(response => response.json())
+  alert("Sikeres feltöltés!");
+  location.reload();
 }
 
 async function GetMotherboards()
@@ -179,6 +183,8 @@ function UploadRAM()
     }
   )
   .then(response => response.json())
+  alert("Sikeres feltöltés!");
+  location.reload();
 }
 
 function UploadGPU()
@@ -213,6 +219,8 @@ function UploadGPU()
     }
   )
   .then(response => response.json())
+  alert("Sikeres feltöltés!");
+  location.reload();
 }
 
 function UploadStorage()
@@ -249,6 +257,8 @@ function UploadStorage()
     }
   )
   .then(response => response.json())
+  alert("Sikeres feltöltés!");
+  location.reload();
 }
 
 function UploadMonitor()
@@ -295,6 +305,8 @@ function UploadMonitor()
     }
   )
   .then(response => response.json())
+  alert("Sikeres feltöltés!");
+  location.reload();
 }
 
 async function UploadMouse()
@@ -327,6 +339,8 @@ async function UploadMouse()
     }
   )
   .then(response => response.json())
+  alert("Sikeres feltöltés!");
+  location.reload();
 }
 
 async function UploadKeyboard()
@@ -363,6 +377,8 @@ async function UploadKeyboard()
     }
   )
   .then(response => response.json())
+  alert("Sikeres feltöltés!");
+  location.reload();
 }
 
 async function isWirelessFunc(num)
@@ -377,4 +393,15 @@ async function isWirelessFunc(num)
   }
 }
 
-export {GetListOfData, UploadCPU, GetPreset, UploadMotherBoard, GetMotherboards, UploadRAM, UploadGPU, UploadStorage, UploadMonitor, UploadMouse, UploadKeyboard};
+function SendComment(data)
+{
+  fetch(apiURL + 'Reviews', 
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json());
+}
+
+export {GetListOfData, UploadCPU, GetPreset, UploadMotherBoard, GetMotherboards, UploadRAM, UploadGPU, UploadStorage, UploadMonitor, UploadMouse, UploadKeyboard, SendComment};
