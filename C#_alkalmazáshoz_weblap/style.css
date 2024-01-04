@@ -35,6 +35,7 @@ body
 .card>img
 {
     padding-top: 5px;
+    margin: auto;
 }
 
 li
